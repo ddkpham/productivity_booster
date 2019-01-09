@@ -7,7 +7,7 @@ from datetime import datetime as dt
 hosts_temp = "hosts"
 hosts_path = "/etc/hosts"
 redirect = "127.0.0.1"
-website_lists = ["www.facebook.com", "facebook.com", "reddit.com", "www.reddit.com", "mangastream.com", "www.mangastream.com"] 
+website_lists = [] 
 
 def timeConversion(int):
     if int > 12:
@@ -94,6 +94,30 @@ while(start > end):
     end_time_confirm(end)
 
 
+#Choose websites to block 
+print("Please enter the websites you wish to block one at a time:")
+print("Example: www.cuddlycats.com OR cuddlycats.com will work")
+
+website = raw_input('Enter "X" to exit\n')
+website = website.lower()
+while (website != 'x'):
+    #Website not in website list
+    if website not in website_lists:
+        prefix_check = 'www.'
+        if prefix_check not in website:
+            website_lists.append(website)
+            website = 'www.'+ website
+            website_lists.append(website)
+        else:
+            website_lists.append(website[4:])
+            website_lists.append(website)
+    else:
+        print("Website already in block list")
+
+    website = raw_input('Enter another website or hit "X" to exit\n')
+    website = website.lower()
+    
+    
 
 #Run Script Indefinitely
 while True:
