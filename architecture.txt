@@ -1,0 +1,6 @@
+Program Architecture
+
+Where IP Address key pairs are stored:
+
+Mac and Linux
+/etc/hosts
