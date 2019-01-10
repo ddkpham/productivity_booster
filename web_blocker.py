@@ -9,6 +9,7 @@ hosts_path = "/etc/hosts"
 redirect = "127.0.0.1"
 website_lists = [] 
 
+#Converts 24 hour time to 12 hour time 
 def timeConversion(int):
     if int > 12:
         int = int-12
@@ -20,9 +21,16 @@ def timeConversion(int):
             return str(int) +":00 am"
 
 #Grab start time and end time for when websites should be restricted
-print('Hello! \n\nBoost your productivity by blocking distracting websites!')
-print('Please enter the hour of when you would like to start being productive.')
-print('\nExample: Enter "8" for 8:00 am || Enter "13" for 1:00pm')
+def hello_statement():
+    print('Hello! \n\nBoost your productivity by blocking distracting websites!')
+    print('Please enter the hour of when you would like to start being productive.')
+    print('\nExample: Enter "8" for 8:00 am || Enter "13" for 1:00pm')
+
+
+#Choose websites to block 
+def website_statements():
+    print("Please enter the websites you wish to block one at a time:")
+    print("Example: www.cuddlycats.com OR cuddlycats.com will work")
 
 #START TIME CONFIRMATION 
 def get_start_time():
@@ -30,12 +38,14 @@ def get_start_time():
     while(start < 0 or start > 24):
         print('\nInvalid start time. Try to pick a time between 0 and 24')
         start = int(raw_input('Please enter your start time now...\n'))
-        print(start)
+        #print(start)
     return start
- 
+
+#Function returns 1 on success asks for a new start time on fail 
 def response_check(response):
     if response == 'y':
-        return 1
+        #Response confirmed
+        pass
     elif response =='n':
         print("Oops... Try entering your time again")
         start = get_start_time()
@@ -52,7 +62,7 @@ def start_time_confirm(start):
     print("Is this the correct start time?")
     response = raw_input('Enter "Y" for Yes and Enter "N" for No\n')
     response = str(response.lower())
-    print(response)
+    #print(response)
     response_check(response)
 
 # END TIME CONFIRMATION 
@@ -62,7 +72,7 @@ def get_end_time():
     while(end < 0 or end > 24):
         print('\nInvalid start time. Try to pick a time between 0 and 24')
         end = int(raw_input('Please enter your end time now...\n'))
-        print(end)
+        #print(end)
     return end
 
 def end_time_confirm(end):
@@ -70,17 +80,41 @@ def end_time_confirm(end):
     print("Is this the correct end time?")
     response = raw_input('Enter "Y" for Yes and Enter "N" for No\n')
     response = str(response.lower())
-    print(response)
+    #print(response)
     response_check(response)
 
-#Get Start Time 
+def user_website_input():
+    website = raw_input('Enter "X" to exit\n')
+    website = website.lower()
+    while (website != 'x'):
+        #Website not in website list
+        if website not in website_lists:
+            prefix_check = 'www.'
+            if prefix_check not in website:
+                website_lists.append(website)
+                website = 'www.'+ website
+                website_lists.append(website)
+            else:
+                website_lists.append(website[4:])
+                website_lists.append(website)
+        else:
+            print("Website already in block list")
+
+        website = raw_input('Enter another website or hit "X" to exit\n')
+        website = website.lower()
+
+#-----------------------------------MAIN PROGRAM------------------------------------#
+hello_statement()
+
+#Get Start Time of webblocker
 start = get_start_time()
 start_time_confirm(start)
 
-#Get End Time 
+#Get End Time of weblocker
 end = get_end_time()
 end_time_confirm(end)
 
+#Check to see if start time and end time is valid 
 while(start > end):
     print("\nERROR! Make sure your end time is after your start time")    
     #Get Start Time 
@@ -93,31 +127,9 @@ while(start > end):
     end = get_end_time()
     end_time_confirm(end)
 
-
-#Choose websites to block 
-print("Please enter the websites you wish to block one at a time:")
-print("Example: www.cuddlycats.com OR cuddlycats.com will work")
-
-website = raw_input('Enter "X" to exit\n')
-website = website.lower()
-while (website != 'x'):
-    #Website not in website list
-    if website not in website_lists:
-        prefix_check = 'www.'
-        if prefix_check not in website:
-            website_lists.append(website)
-            website = 'www.'+ website
-            website_lists.append(website)
-        else:
-            website_lists.append(website[4:])
-            website_lists.append(website)
-    else:
-        print("Website already in block list")
-
-    website = raw_input('Enter another website or hit "X" to exit\n')
-    website = website.lower()
-    
-    
+#Obtain list of distracting websites user wishes to block
+website_statements()    
+user_website_input()
 
 #Run Script Indefinitely
 while True:
