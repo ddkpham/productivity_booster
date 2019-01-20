@@ -2,12 +2,31 @@
 
 import time
 import math
+import os
+import platform
 from datetime import datetime as dt
 #Path to hosts file on Mac
 hosts_temp = "hosts"
 hosts_path = "/etc/hosts"
 redirect = "127.0.0.1"
 website_lists = [] 
+
+#Obtains host path based on OS system of Device
+def host_path():
+    os = platform.system()
+    os = os.lower()
+    if 'darwin' in os:
+        hosts_path = "/etc/hosts"
+        print("MacOS...host file set")
+    elif 'linux' in os:
+        hosts_path = "/etc/hosts"
+        print("Linux...host file set")
+    else: 
+        hosts_path = "c:\Windows\System32\Drivers\etc\hosts"
+        print("Windows...host file set") 
+
+    return hosts_path
+
 
 #Converts 24 hour time to 12 hour time 
 def timeConversion(int):
@@ -104,6 +123,9 @@ def user_website_input():
         website = website.lower()
 
 #-----------------------------------MAIN PROGRAM------------------------------------#
+
+#Check which OS is being used and set path accordingly. 
+hosts_path = host_path()
 hello_statement()
 
 #Get Start Time of webblocker
