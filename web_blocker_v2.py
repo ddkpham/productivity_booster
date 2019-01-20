@@ -202,8 +202,15 @@ def website_check():
                         print("website already blocked")
                         pass
                     else:
-                        file.write(redirect + " " + website + "\n")
-                        print(website + " has been blocked " + "\n")
+                        if 'www' in website:
+                            file.write(redirect + " " + website + "\n")
+                            file.write(redirect + " "  + website[4:] + "\n")
+                            print(website + " has been blocked " + "\n")
+                        else:
+                            file.write(redirect + " " + website + "\n")
+                            file.write(redirect + " " + "www." + website + "\n")
+                            print(website + " has been blocked " + "\n")
+
         else:
             print("Put on your party pants work is over!")
             with open(hosts_path, 'r+') as file:
