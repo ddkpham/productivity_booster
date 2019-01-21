@@ -229,7 +229,7 @@ def website_check():
     else:
         print("Set start and end times improperly")
     
-
+    root.after(300000, website_check)
 
 
 #Set up Confirm Button 
